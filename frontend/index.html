@@ -1,25 +1,23 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>J.A.R.V.I.S</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS AI ASSISTANT</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>J.A.R.V.I.S</h1>
-    <p id="status">BRAIN: NOT CONNECTED</p>
-
-    <textarea id="prompt">Hello J.A.R.V.I.S</textarea>
-
-    <button id="sendBtn" onclick="ask()">SEND REQUEST</button>
-
-    <div id="reply">Waiting for response...</div>
+    <h1>JARVIS AI ASSISTANT</h1>
+    <div class="core"></div>
+    <div id="chat-box">
+      <p>JARVIS: Hello! How can I help you?</p>
+    </div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type your message...">
+      <button id="send-btn">SEND</button>
+    </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
-  
