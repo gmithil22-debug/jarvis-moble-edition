@@ -1,67 +1,34 @@
+const chatBox = document.getElementById("chat-box");
+const userInput = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
 
-const API_KEY = "PASTE_YOUR_API_KEY_HERE";
+function addMessage(sender, message) {
+  const p = document.createElement("p");
+  p.textContent = sender + ": " + message;
+  p.style.marginBottom = "12px";
+  chatBox.appendChild(p);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
-async function ask() {
-  const prompt = document.getElementById("prompt").value;
-  const reply = document.getElementById("reply");
-  const status = document.getElementById("status");
-  const button = document.getElementById("sendBtn");
+function sendMessage() {
+  const message = userInput.value.trim();
 
-  if (!API_KEY || API_KEY === "PASTE_YOUR_API_KEY_HERE") {
-    reply.innerText = "Please add your Gemini API Key.";
+  if (message === "") {
     return;
   }
 
-  reply.innerText = "PROCESSING...";
-  status.innerText = "CONNECTING...";
-  button.disabled = true;
+  addMessage("YOU", message);
+  userInput.value = "";
 
-  try {
-    const res = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" + API_KEY,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: prompt }]
-            }
-          ]
-        })
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(
-        data.error?.message || "API Error: " + res.status
-      );
-    }
-
-    const answer =
-      data.candidates?.[0]?.content?.parts
-        ?.map(part => part.text || "")
-        .join("\n");
-
-    if (!answer) {
-      throw new Error("No response received.");
-    }
-
-    reply.innerText = answer;
-    status.innerText = "✓ BRAIN ONLINE";
-    status.style.color = "#00ff00";
-
-  } catch (error) {
-    reply.innerText = "ERROR: " + error.message;
-    status.innerText = "CONNECTION FAILED";
-    status.style.color = "red";
-
-  } finally {
-    button.disabled = false;
-  }
+  setTimeout(() => {
+    addMessage("JARVIS", "Your message received. How can I help you?");
+  }, 500);
 }
-  
+
+sendBtn.addEventListener("click", sendMessage);
+
+userInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    sendMessage();
+  }
+});
